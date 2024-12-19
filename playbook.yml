@@ -1,19 +1,20 @@
 ---
-- name: Install Java 17 and deploy JAR file
-  roles:
-    - { role: datadog.datadog, become: yes }
+- name: Install Java 17, deploy JAR file, install Datadog
   hosts: all
   become: true
   vars:
-    datadog_api_key: "addabd2ca0b314cf9f4c66f5090d8756"
+    datadog_api_key: "<KEY_HERE>"
     datadog_apm_instrumentation_enabled: host
-    datadog_apm_instrumentation_libraries: ["java:1.38.0"]
+    datadog_apm_instrumentation_libraries: ["java:1.36.0"]
   tasks:
+    - name: Import the Datadog Agent role from the Datadog collection
+      import_role:
+        name: datadog.dd.agent
+        
     - name: Create application directory
       file:
         path: /opt/app
         state: directory
-      when: not (ansible_os_family == 'RedHat')
 
     - name: Copy JAR file to /opt/app
       copy:
@@ -34,10 +35,3 @@
       command: nohup java -jar /opt/app/application.jar > /dev/null 2>&1 &
       async: 1  # Run asynchronously to start the process but not wait for it to complete
       poll: 0    # Do not check the status again after starting the process
-
-    - name: Increase open file descriptors for Java
-      sysctl:
-        name: fs.file-max
-        value: 65536
-        state: present
-      when: ansible_os_family == 'RedHat'
