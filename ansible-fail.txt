@@ -1,0 +1,4 @@
+
+TASK [datadog.dd.agent : Install APM inject libraries (dnf)] *****************************************************************
+failed: [192.168.56.4] (item=datadog-apm-library-java-1.38.0-1) => {"ansible_loop_var": "item", "changed": false, "failures": ["No package datadog-apm-library-java-1.38.0-1 available."], "item": "datadog-apm-library-java-1.38.0-1", "msg": "Failed to install some of the specified packages", "rc": 1, "results": []}
+
