@@ -1,11 +1,11 @@
 ---
-- name: Install Java 17, deploy JAR file, install Datadog
+- name: Install Java 17 and deploy JAR file
   hosts: all
   become: true
   vars:
-    datadog_api_key: "<KEY_HERE>"
+    datadog_api_key: "KEY_HERE"
     datadog_apm_instrumentation_enabled: host
-    datadog_apm_instrumentation_libraries: ["java:1.36.0"]
+    datadog_apm_instrumentation_libraries: ["java:1.38.0"]
   tasks:
     - name: Import the Datadog Agent role from the Datadog collection
       import_role:
