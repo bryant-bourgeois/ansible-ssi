@@ -1,5 +1,8 @@
 ---
 - name: Install Java 17 and deploy JAR file
+  roles:
+    - role: datadog.datadog 
+      become: true 
   hosts: all
   become: true
   vars:
@@ -30,8 +33,3 @@
     - name: Set Java 17 as the default
       shell: alternatives --set java /usr/lib/jvm/java-17-openjdk-17.0.13.0.11-3.el8.x86_64/bin/java
       changed_when: false
-
-    - name: Execute the JAR file in background
-      command: nohup java -jar /opt/app/application.jar > /dev/null 2>&1 &
-      async: 1  # Run asynchronously to start the process but not wait for it to complete
-      poll: 0    # Do not check the status again after starting the process
